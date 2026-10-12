@@ -20,38 +20,58 @@
 </header>
 
 <div id="transport">
+  <div id="modes" class="seg" role="group" aria-label="モード">
+    <button data-mode="edit">小節を編集</button>
+    <button data-mode="arrange">小節を並べる</button>
+  </div>
   <button id="play" class="primary">▶ 再生</button>
   <label>テンポ <input id="bpm" type="number" min="20" max="900" step="1"> BPM</label>
-  <label>長さ <input id="bars" type="number" min="1" max="16" step="1"> 小節</label>
   <label><input type="checkbox" id="loop" checked> ループ</label>
   <span id="position"></span>
 </div>
 
 <main>
-  <canvas id="overview" width="128" height="52"></canvas>
-
-  <nav id="tabs" role="tablist" aria-label="トラック"></nav>
-  <section id="panel">
-    <div class="row" id="track-tools">
+  <!-- ===== 小節を編集 ===== -->
+  <section id="panel-edit">
+    <nav id="tabs" role="tablist" aria-label="トラック"></nav>
+    <div class="row first">
+      <span class="label">小節</span>
+      <div id="pattern-buttons" class="seg numbers"></div>
+    </div>
+    <div class="row">
+      <button id="play-alone">▶ この小節だけ</button>
+      <span class="gap"></span>
+      <button id="copy">コピー</button>
+      <button id="paste">貼り付け</button>
+      <button id="clear">消去</button>
+      <span class="gap"></span>
       <button id="mute" class="flag">ミュート</button>
       <button id="solo" class="flag">ソロ</button>
-      <span class="gap"></span>
-      <button id="copy-bar">小節をコピー</button>
-      <button id="paste-bar">小節に貼り付け</button>
-      <button id="clear-bar">小節を消去</button>
-      <button id="clear-track">トラックを消去</button>
+      <span id="usage"></span>
     </div>
     <div id="roll-wrap">
       <canvas id="labels" width="30" height="494"></canvas>
-      <div id="roll-scroll"><canvas id="roll" width="704" height="494"></canvas></div>
+      <div id="roll-scroll"><canvas id="roll" width="640" height="494"></canvas></div>
     </div>
+    <p class="hint">番号で小節を選んで編集する。小節は 64 個まで作れ、どのトラックにも置ける。タブは、その小節を鳴らすトラック（波形）。<br>マスをクリックで音を置く / 消す。ドラッグで続けて置ける。下の帯は音量（3 段階）。</p>
+    <p class="hint">「再生」は、この小節を繰り返す。曲の中で使っている小節なら、同じ位置のほかのトラックも一緒に鳴り、薄く重ねて表示される。<br>「この小節だけ」は、ほかのトラックを鳴らさずにこの小節だけを繰り返す（ミュート中でも鳴る）。<br>Space = 再生 / 停止、Shift + Space = この小節だけ、1〜4 = タブの切り替え、Ctrl / ⌘ + Z = 元に戻す。</p>
   </section>
 
-  <div id="hints">
-    <p class="hint">波形ごとに 1 つずつ、4 つのトラックが同時に鳴る。タブで編集するトラックを切り替える（ほかのトラックの音は薄く重ねて表示される）。<br>ミュート = そのトラックを鳴らさない、ソロ = そのトラックだけを鳴らす。</p>
-    <p class="hint">マスをクリックで音を置く / 消す。ドラッグで続けて置ける。下の帯は音量（3 段階）。<br>上の小節番号を押すと、その小節が再生の開始位置と、コピー / 貼り付け / 消去の対象になる。</p>
-    <p class="hint">Space = 再生 / 停止、1〜4 = タブの切り替え、Ctrl / ⌘ + Z = 元に戻す。<br>1 ステップ = 16 分音符、1 小節 = 16 ステップ。</p>
-  </div>
+  <!-- ===== 小節を並べる ===== -->
+  <section id="panel-arrange" hidden>
+    <div class="row first">
+      <label>曲の長さ <input id="length" type="number" min="1" max="64" step="1"> 小節</label>
+    </div>
+    <div id="grid-scroll"><table id="grid"></table></div>
+    <div class="row">
+      <span class="label" id="place-label">置く小節</span>
+      <div id="place-buttons" class="seg numbers"></div>
+      <span class="gap"></span>
+      <button id="edit-this">この小節を編集</button>
+    </div>
+    <p class="hint">マスを選んでから番号を押すと、その位置に小節を置き、その小節を 1 回鳴らす（置くと次の位置へ進む）。同じ小節を何度でも、どのトラックにでも置ける。<br>「休み」で空にする。マスのダブルクリックか「この小節を編集」で、その小節の編集に移る。</p>
+    <p class="hint">再生は、選んでいるマスの位置から始まる。上の番号を押しても位置を選べる。<br>Space = 再生 / 停止、Ctrl / ⌘ + Z = 元に戻す。</p>
+  </section>
 </main>
 
 <div id="modal" hidden>

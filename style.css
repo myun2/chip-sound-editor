@@ -17,7 +17,9 @@ button, select, input[type="number"] {
 }
 button { cursor: pointer; }
 button:hover, select:hover { border-color: var(--dim); }
-button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+button:disabled { opacity: .4; cursor: default; }
+button.on, button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button.primary { font-weight: 700; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 header {
@@ -32,33 +34,53 @@ header h1 { margin: 0; font-size: 16px; letter-spacing: .3em; color: var(--accen
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
   padding: 10px 16px; border-bottom: 1px solid var(--line);
 }
-#transport input[type="number"] { width: 70px; }
+#transport input[type="number"], #length { width: 70px; }
 #play { min-width: 92px; }
+#play-alone { min-width: 128px; }
 #position { font: 12px var(--mono); color: var(--dim); }
 
 main { padding: 16px; }
-.row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
+.row.first { margin-top: 14px; }
+.row .gap { width: 12px; }
+.label { color: var(--dim); margin-right: 4px; }
 .hint { margin: 12px 0 0; font-size: 12px; color: var(--dim); }
 canvas { display: block; image-rendering: pixelated; touch-action: none; }
 
-/* ---- 曲の全体 ---- */
-#overview { max-width: 100%; height: 52px; margin-bottom: 14px; border: 1px solid var(--line); cursor: pointer; }
+/* つながったボタンの組（モードの切り替え、小節の番号） */
+.seg { display: flex; flex-wrap: wrap; gap: 2px; }
+.seg.numbers button { min-width: 34px; padding: 5px 0; font: 12px var(--mono); color: var(--dim); }
+.seg.numbers button.used { color: var(--text); border-color: var(--dim); }
+.seg.numbers button.on { color: var(--accent-ink); border-color: var(--accent); }
+.seg.numbers button.rest { min-width: 52px; font-family: inherit; }
+.flag.on { background: var(--text); border-color: var(--text); color: var(--bg); }
+#usage { margin-left: 8px; font-size: 12px; color: var(--dim); }
 
 /* ---- トラックのタブ ---- */
 #tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line); }
 #tabs button { border-bottom: 0; border-radius: 6px 6px 0 0; padding: 6px 16px; }
-#tabs button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 #tabs button.quiet:not(.on) { color: var(--dim); }  /* ミュートなどで鳴っていないトラック */
 
-#panel { max-width: 100%; padding-top: 14px; }
-#track-tools { margin-bottom: 12px; }
-#track-tools .gap { width: 12px; }
-.flag.on { background: var(--text); border-color: var(--text); color: var(--bg); }
-
 /* ---- ピアノロール ---- */
-#roll-wrap { display: flex; max-width: 100%; border: 1px solid var(--line); }
-#roll-scroll { flex: 1; min-width: 0; overflow-x: auto; }
+#roll-wrap { display: flex; width: fit-content; max-width: 100%; margin-top: 12px; border: 1px solid var(--line); }
+#roll-scroll { min-width: 0; overflow-x: auto; }
 #roll { cursor: crosshair; }
+
+/* ---- 並べる ---- */
+#grid-scroll { max-width: 100%; margin-top: 12px; overflow-x: auto; }
+#grid { border-collapse: separate; border-spacing: 2px; }
+#grid th { padding: 0; font-weight: 400; }
+#grid thead th button { width: 38px; padding: 2px 0; border-color: transparent; background: none; font: 11px var(--mono); color: var(--dim); }
+#grid tbody th { position: sticky; left: 0; z-index: 1; padding-right: 6px; background: var(--bg); white-space: nowrap; text-align: left; }
+#grid tbody th .name { display: inline-block; width: 78px; }
+#grid tbody th.quiet .name { color: var(--dim); }
+#grid tbody th button { width: 26px; padding: 3px 0; font: 700 11px var(--mono); color: var(--dim); }
+#grid td { padding: 0; }
+#grid td button { width: 38px; height: 30px; padding: 0; font: 700 13px var(--mono); color: var(--ink, var(--text)); }
+#grid td button:empty { background: none; }
+#grid td button.sel { outline: 2px solid var(--accent); outline-offset: -1px; }
+#grid .now button { border-color: var(--text); }
+#grid thead .now button, #grid thead .at button { color: var(--accent); font-weight: 700; }
 
 /* ---- ダイアログ ---- */
 #modal { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .6); }
