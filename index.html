@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chip Sound Editor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>CHIP SOUND EDITOR</h1>
+  <span class="spacer"></span>
+  <span id="saved"></span>
+  <button id="demo">見本の曲</button>
+  <button id="new">新規</button>
+  <button id="import">読み込み</button>
+  <button id="export">保存 (.json)</button>
+  <input id="file" type="file" accept=".json,application/json" hidden>
+</header>
+
+<div id="transport">
+  <button id="play" class="primary">▶ 再生</button>
+  <label>テンポ <input id="bpm" type="number" min="20" max="900" step="1"> BPM</label>
+  <label>長さ <input id="bars" type="number" min="1" max="16" step="1"> 小節</label>
+  <label><input type="checkbox" id="loop" checked> ループ</label>
+  <span id="position"></span>
+</div>
+
+<main>
+  <canvas id="overview" width="128" height="52"></canvas>
+
+  <nav id="tabs" role="tablist" aria-label="トラック"></nav>
+  <section id="panel">
+    <div class="row" id="track-tools">
+      <button id="mute" class="flag">ミュート</button>
+      <button id="solo" class="flag">ソロ</button>
+      <span class="gap"></span>
+      <button id="copy-bar">小節をコピー</button>
+      <button id="paste-bar">小節に貼り付け</button>
+      <button id="clear-bar">小節を消去</button>
+      <button id="clear-track">トラックを消去</button>
+    </div>
+    <div id="roll-wrap">
+      <canvas id="labels" width="30" height="494"></canvas>
+      <div id="roll-scroll"><canvas id="roll" width="704" height="494"></canvas></div>
+    </div>
+  </section>
+
+  <div id="hints">
+    <p class="hint">波形ごとに 1 つずつ、4 つのトラックが同時に鳴る。タブで編集するトラックを切り替える（ほかのトラックの音は薄く重ねて表示される）。<br>ミュート = そのトラックを鳴らさない、ソロ = そのトラックだけを鳴らす。</p>
+    <p class="hint">マスをクリックで音を置く / 消す。ドラッグで続けて置ける。下の帯は音量（3 段階）。<br>上の小節番号を押すと、その小節が再生の開始位置と、コピー / 貼り付け / 消去の対象になる。</p>
+    <p class="hint">Space = 再生 / 停止、1〜4 = タブの切り替え、Ctrl / ⌘ + Z = 元に戻す。<br>1 ステップ = 16 分音符、1 小節 = 16 ステップ。</p>
+  </div>
+</main>
+
+<div id="modal" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="modal-text">
+    <p id="modal-text"></p>
+    <textarea id="modal-area" spellcheck="false" aria-label="データの中身"></textarea>
+    <div class="row" id="modal-buttons"></div>
+  </div>
+</div>
+
+<script src="sound.js"></script>
+<script src="audio.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

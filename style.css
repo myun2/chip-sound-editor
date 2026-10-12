@@ -1,0 +1,72 @@
+:root {
+  --bg: #15162a; --panel: #1e2038; --line: #343861; --text: #dcdef0; --dim: #8d91b3;
+  --accent: #f7c873; --accent-ink: #2a1c05; --danger: #ff7b8f;
+  color-scheme: dark;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { min-height: 100%; margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 13px/1.5 ui-sans-serif, system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+button, select, input { font: inherit; color: inherit; }
+button, select, input[type="number"] {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px;
+}
+button { cursor: pointer; }
+button:hover, select:hover { border-color: var(--dim); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+header {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 8px 16px; border-bottom: 1px solid var(--line);
+}
+header h1 { margin: 0; font-size: 16px; letter-spacing: .3em; color: var(--accent); }
+.spacer { flex: 1; }
+#saved { font-size: 12px; color: var(--dim); }
+
+#transport {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+}
+#transport input[type="number"] { width: 70px; }
+#play { min-width: 92px; }
+#position { font: 12px var(--mono); color: var(--dim); }
+
+main { padding: 16px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.hint { margin: 12px 0 0; font-size: 12px; color: var(--dim); }
+canvas { display: block; image-rendering: pixelated; touch-action: none; }
+
+/* ---- 曲の全体 ---- */
+#overview { max-width: 100%; height: 52px; margin-bottom: 14px; border: 1px solid var(--line); cursor: pointer; }
+
+/* ---- トラックのタブ ---- */
+#tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line); }
+#tabs button { border-bottom: 0; border-radius: 6px 6px 0 0; padding: 6px 16px; }
+#tabs button.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+#tabs button.quiet:not(.on) { color: var(--dim); }  /* ミュートなどで鳴っていないトラック */
+
+#panel { max-width: 100%; padding-top: 14px; }
+#track-tools { margin-bottom: 12px; }
+#track-tools .gap { width: 12px; }
+.flag.on { background: var(--text); border-color: var(--text); color: var(--bg); }
+
+/* ---- ピアノロール ---- */
+#roll-wrap { display: flex; max-width: 100%; border: 1px solid var(--line); }
+#roll-scroll { flex: 1; min-width: 0; overflow-x: auto; }
+#roll { cursor: crosshair; }
+
+/* ---- ダイアログ ---- */
+#modal { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .6); }
+#modal .box { width: 520px; max-width: 100%; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+#modal p { margin: 0; }
+#modal p.err { color: var(--danger); }
+#modal textarea {
+  display: block; width: 100%; height: 180px; margin-top: 12px; padding: 8px; resize: vertical;
+  background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; font: 12px/1.4 var(--mono);
+}
+#modal .row { justify-content: flex-end; margin-top: 14px; }
